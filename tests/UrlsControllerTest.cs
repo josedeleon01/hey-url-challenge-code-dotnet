@@ -65,11 +65,11 @@ namespace tests
             var result = await controller.Show("ABCDE") as RedirectToActionResult;
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<IActionResult>(result);
+            Assert.True(result.ActionName.Contains("NotFoundPage"));
         }
 
         [Test]
-        public async Task Create_Should_Return_Null_When_Executed_With_Invalid_Url()
+        public async Task Create_Should_Redirect_To_Error_When_Executed_With_Invalid_Url()
         {
             var url = new Url { ShortUrl = "ABCDE" };
             var logger = new Mock<ILogger<UrlsController>>();
@@ -83,7 +83,7 @@ namespace tests
         }
 
         [Test]
-        public async Task Visit_Return_Not_Null_TypeOf_IActionResult_When_Executed_Successfully()
+        public async Task Visit_Should_Redirect_To_NotFoundPage_When_Executed_Invalid_Url()
         {
             var logger = new Mock<ILogger<UrlsController>>();
             var browserDetector = new Mock<IBrowserDetector>();
